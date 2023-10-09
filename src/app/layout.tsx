@@ -1,7 +1,7 @@
-import Header from "@/components/Header";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import StoreProvider from "../providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,8 +22,7 @@ export default function RootLayout({
         <link rel="shortcut icon" type="image/jpg" href="/cinemind-mono.svg" />
       </head>
       <body className={inter.className}>
-        <Header />
-        {children}
+        <StoreProvider>{children}</StoreProvider>
       </body>
     </html>
   );
