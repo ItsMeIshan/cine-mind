@@ -14,6 +14,7 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
   const user = useSelector((store: RootState) => store.user);
   useEffect(() => {
+    console.log("AUTHGUARD RAN");
     const unSubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(

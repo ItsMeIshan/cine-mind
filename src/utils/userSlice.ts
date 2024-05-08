@@ -17,6 +17,7 @@ const userSlice = createSlice({
       state.uid = action.payload.uid;
     },
     removeUser: (state) => {
+      console.log("LOGGED OUTTT!!!");
       state.name = "";
       state.email = "";
       state.photoURL = "";

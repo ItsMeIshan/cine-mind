@@ -3,17 +3,19 @@ import { auth } from "@/utils/firebase";
 import { validate } from "@/utils/helper";
 import {
   createUserWithEmailAndPassword,
-  signInWithCredential,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "@/utils/userSlice";
 import { PHOTO_URL } from "@/utils/constants";
 import Header from "./Header";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import Loader from "./Loader";
+import { useSelector } from "react-redux";
+import { RootState } from "@/utils/store";
 
 const Login = () => {
   const router = useRouter();
@@ -81,6 +83,7 @@ const Login = () => {
         password.current!.value
       )
         .then((userCredential) => {
+          console.log(userCredential);
           dispatch(
             addUser({
               uid: auth.currentUser?.uid,
@@ -98,6 +101,7 @@ const Login = () => {
         });
     }
   }
+
   return (
     <>
       <Header />

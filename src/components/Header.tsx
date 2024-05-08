@@ -5,8 +5,8 @@ import { RootState } from "@/utils/store";
 import { signOut } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { useRouter, redirect } from "next/navigation";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const Header = () => {
