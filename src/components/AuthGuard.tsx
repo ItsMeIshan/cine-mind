@@ -1,40 +1,25 @@
 "use client";
-import { auth } from "@/utils/firebase";
-import { RootState } from "@/utils/store";
-import { addUser, removeUser } from "@/utils/userSlice";
-import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import React from "react";
 import Loader from "./Loader";
+import { useSession } from "next-auth/react";
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const user = useSelector((store: RootState) => store.user);
-  useEffect(() => {
-    console.log("AUTHGUARD RAN");
-    const unSubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch(
-          addUser({
-            uid: user?.uid,
-            name: user?.displayName,
-            email: user?.email,
-            photoURL: user?.photoURL,
-          })
-        );
-        router.replace("/browse");
-      } else {
-        dispatch(removeUser());
-        router.push("/");
-      }
-    });
-    return () => unSubscribe();
-  }, []);
-  if (user.uid === undefined || user.uid === "") {
+  const { data: session, status } = useSession();
+  if (status === "loading") {
     return <Loader />;
+  }
+  if (status === "unauthenticated") {
+    router.replace("/sign-in");
+    return (
+      <div>
+        Not Authenticated{" "}
+        <a href="/sign-in">
+          <button>Back to Signin</button>
+        </a>
+      </div>
+    );
   }
   return <div>{children}</div>;
 };

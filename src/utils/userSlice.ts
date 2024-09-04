@@ -4,7 +4,6 @@ const initialState: IUser = {
   uid: "",
   name: "",
   email: "",
-  photoURL: "",
 };
 const userSlice = createSlice({
   name: "userSlice",
@@ -13,14 +12,11 @@ const userSlice = createSlice({
     addUser: (state, action) => {
       state.name = action.payload.name;
       state.email = action.payload.email;
-      state.photoURL = action.payload.photoURL;
       state.uid = action.payload.uid;
     },
     removeUser: (state) => {
-      console.log("LOGGED OUTTT!!!");
       state.name = "";
       state.email = "";
-      state.photoURL = "";
       state.uid = "";
     },
   },

@@ -8,10 +8,7 @@ export default function BrowseLayout({
 }) {
   return (
     <AuthGuard>
-      <section>
-        <Header />
-        {children}
-      </section>
+      <section>{children}</section>
     </AuthGuard>
   );
 }

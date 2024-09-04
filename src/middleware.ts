@@ -1,9 +1,23 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { useRouter } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "./utils/firebase";
 export { default } from "next-auth/middleware";
-export function middleware(request: NextRequest) {}
+import { getToken } from "next-auth/jwt";
+
+export async function middleware(request: NextRequest) {
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXT_AUTH_SECRET,
+  });
+  const url = request.nextUrl;
+  if (
+    token &&
+    (url.pathname.startsWith("sign-in") ||
+      url.pathname.startsWith("sign-up") ||
+      url.pathname.startsWith("/"))
+  ) {
+    return NextResponse.redirect(new URL("/browse", request.url));
+  }
+}
+
 export const config = {
-  matcher: ["/"],
+  matcher: ["/", "/sign-in", "/sign-up"],
 };

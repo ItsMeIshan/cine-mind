@@ -1,12 +1,9 @@
-import Login from "@/components/Login";
-import { redirect } from "next/navigation";
-import { auth } from "@/utils/firebase";
+"use client";
 
 export default function Home() {
-  const user = auth.currentUser;
-  if (user) {
-    console.log("here>>>");
-    redirect("/browse");
-  }
-  return <Login />;
+  return (
+    <div>
+      <h1 className="text-[slate]">Welcome to Cinemind</h1>
+    </div>
+  );
 }

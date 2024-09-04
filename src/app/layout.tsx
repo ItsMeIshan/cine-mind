@@ -2,6 +2,11 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import StoreProvider from "../providers";
+import Header from "@/components/Header";
+import { SessionProvider } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/options";
+import AuthProvider from "@/providers/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,13 +21,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const session = getServerSession(authOptions);
   return (
     <html lang="en">
       <head>
         <link rel="shortcut icon" type="image/jpg" href="/cinemind-mono.svg" />
       </head>
       <body className={inter.className}>
-        <StoreProvider>{children}</StoreProvider>
+        <AuthProvider>
+          <StoreProvider>
+            <Header />
+            {children}
+          </StoreProvider>
+        </AuthProvider>
       </body>
     </html>
   );
