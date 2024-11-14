@@ -64,8 +64,11 @@ function SignUpForm() {
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsLoading(true);
     try {
-      await axios.post("/api/sign-up", data);
+      const response = await axios.post("/api/sign-up", data);
       setIsLoading(false);
+      if (response?.config?.url) {
+        router.replace("/sign-in");
+      }
     } catch (error) {
       console.error("Error during sign-up:", error);
       setError("There was a problem with your sign-up. Please try again.");
